@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import random
 import threading
 import time
+import sys
 
 app = Flask(__name__)
 spam_threads = {}
@@ -14,7 +15,7 @@ def spam_otp(number):
     while running_flags.get(number, False):
         for _ in range(5):
             otp = generate_random_otp()
-            print(f"OTP {otp} sent to {number}")
+            print(f"OTP {otp} sent to {number}", flush=True)
         time.sleep(1)
 
 @app.route('/')
@@ -41,5 +42,5 @@ def stop():
     return jsonify({'status': 'stopped'})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
-    
+    app.run(host="0.0.0.0", port=10000, debug=True)
+        
